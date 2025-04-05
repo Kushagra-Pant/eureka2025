@@ -1,5 +1,122 @@
-#map { 
-    height: 50vh;
-    width: 50%; 
-    margin: 0 auto;
+@import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --MAIN-COLOR: rgb(180, 226, 159);
+    --SEC-COLOR: rgb(183, 224, 220);
+    --BORDER: 4px solid #1BC1B6;
+
+    --DARK-GREEN: #4FC119;
+    --DARK-CYAN: #1BC1B6;
+}  
+
+body {
+    font-family: "Lato", sans-serif;
+    background-color: var(--MAIN-COLOR);
+}
+
+nav {
+    padding: 1rem;
+    background-color: var(--SEC-COLOR);
+    border-bottom: var(--BORDER);
+}
+
+nav img {
+    width: 200px;
+}
+
+
+main {
+    display: flex;
+    flex-direction: column;
+}
+
+video {
+    outline: var(--BORDER);
+}
+
+
+.header {
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    text-align: center;
+}
+
+.curved{
+    border-radius: 30px;
+}
+
+.camera {
+    display: flex;
+    flex-direction: row;
+    margin: 1rem auto;
+    gap: 3rem;
+}
+
+#buttons{
+    display: inline-block;
+    text-align: center;
+}
+
+button {
+    width: 200px;
+    border-radius: 25px;
+    padding: 1rem;
+    justify-content: center;
+    align-items: centers;
+    margin: 1rem auto;
+}
+
+#screenshot {
+    border: none !important;
+    outline: var(--BORDER) !important;
+    box-shadow: none !important;
+    padding: none !important;
+}
+
+.game {
+    display: flex;
+    flex-direction: row;
+    margin: 1rem auto;
+    gap: 3rem;
+}
+
+.dashboard {
+    width: 640px;
+    height: 480px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+#streetViewImage {
+    border: none !important;
+    outline: var(--BORDER) !important;
+    box-shadow: none !important;
+    padding: none !important;
+    border-radius: 30px;
+}
+
+p{
+    display: inline-block
+}
+
+.score__module, .distance__module, .previous__locations {
+    width: 250px;
+    background-color: var(--DARK-GREEN);
+    border: var(--BORDER);
+    border-radius: 5px;
+    padding: 1rem 0;
+    text-align: center;
+}
+
+.distance__module {
+    margin: 2rem auto;
 }
