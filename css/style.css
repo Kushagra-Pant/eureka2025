@@ -27,7 +27,7 @@ nav {
 }
 
 nav img {
-    width: 200px;
+    width: 250px;
 }
 
 
@@ -65,17 +65,18 @@ video {
 }
 
 button {
-    width: 200px;
-    border-radius: 25px;
+    width: 300px;
+    border-radius: 50px;
     padding: 1rem;
     justify-content: center;
     align-items: centers;
-    margin: 1rem auto;
+    margin: 1rem;
+    font-size: 1.25rem;
 }
 
 #screenshot {
-    border: none !important;
-    outline: var(--BORDER) !important;
+    border: none;
+    outline: var(--BORDER);
     box-shadow: none !important;
     padding: none !important;
 }
@@ -83,7 +84,7 @@ button {
 .game {
     display: flex;
     flex-direction: row;
-    margin: 1rem auto;
+    margin: 1rem auto 3rem;
     gap: 3rem;
 }
 
@@ -109,12 +110,13 @@ p{
 }
 
 .score__module, .distance__module, .previous__locations {
-    width: 250px;
+    width: 350px;
     background-color: var(--DARK-GREEN);
     border: var(--BORDER);
-    border-radius: 5px;
+    border-radius: 60px;
     padding: 1rem 0;
     text-align: center;
+    font-size: 1.25rem;
 }
 
 .distance__module {

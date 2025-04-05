@@ -89,14 +89,14 @@ function map() {
       screenshotImg.onload = () => {
         const compared = compareImages();
         if (compared) {
-          screenshotImg.style.borderColor = "green";
+          screenshotImg.style.outline = "4px solid green";
           markComplete();
           alert("Points Awarded!");
           setTimeout(() => {
             location.reload();
           }, 3000);
         } else {
-          screenshotImg.style.borderColor = "red";
+          screenshotImg.style.outline = "4px solid red";
           alert("Incorrect Location. Points not awarded");
         }
       }
@@ -345,8 +345,8 @@ function compareImages() {
   console.log("Pixel Difference Squared: " + pixelDifferenceSq)
 
   // Threshold to determine if images are similar
-  const threshold = 15000000000; // Adjust this value to set tolerance level
-  if (pixelDifference < threshold) {
+  const threshold = 4000000; // Adjust this value to set tolerance level
+  if (pixelDifferenceSqrt < threshold) {
     console.log("The images are similar.");
     return true;
   } else {
