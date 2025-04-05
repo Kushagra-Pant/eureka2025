@@ -318,22 +318,31 @@ function compareImages() {
   }
 
   let pixelDifference = 0;
-  const length = imageData1.data.length;
+  let pixelDifferenceSq = 0;
+  let pixelDifferenceSqrt = 0;
+  length = imageData1.data.length;
 
   // Compare pixel-by-pixel
   for (let i = 0; i < length; i += 4) {
-    const r1 = imageData1.data[i];
-    const g1 = imageData1.data[i + 1];
-    const b1 = imageData1.data[i + 2];
-    const r2 = imageData2.data[i];
-    const g2 = imageData2.data[i + 1];
-    const b2 = imageData2.data[i + 2];
+    r1 = imageData1.data[i];
+    g1 = imageData1.data[i + 1];
+    b1 = imageData1.data[i + 2];
+    r2 = imageData2.data[i];
+    g2 = imageData2.data[i + 1];
+    b2 = imageData2.data[i + 2];
 
-    const diff = (Math.abs(r1 - r2) + Math.abs(g1 - g2) + Math.abs(b1 - b2))**2;
+    
+    diff = Math.abs(r1 - r2) + Math.abs(g1 - g2) + Math.abs(b1 - b2)
+    diffSqrt = (Math.abs(r1 - r2) + Math.abs(g1 - g2) + Math.abs(b1 - b2))**0.5;
+    diffSq = (Math.abs(r1 - r2) + Math.abs(g1 - g2) + Math.abs(b1 - b2))**2;
     pixelDifference += diff;
+    pixelDifferenceSq += diffSq;
+    pixelDifferenceSqrt += diffSqrt;
   }
 
+  console.log("Pixel Difference Square Root: " + pixelDifferenceSqrt)
   console.log("Pixel Difference: " + pixelDifference)
+  console.log("Pixel Difference Squared: " + pixelDifferenceSq)
 
   // Threshold to determine if images are similar
   const threshold = 15000000000; // Adjust this value to set tolerance level
