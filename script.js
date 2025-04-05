@@ -245,7 +245,7 @@ function getTotalDistance() {
       }
     });
     
-    distanceDiv.innerHTML = totalDistance;
+    distanceDiv.innerHTML = totalDistance.toFixed(2);
     return totalDistance;
 }
 
@@ -336,7 +336,7 @@ function compareImages() {
   console.log("Pixel Difference: " + pixelDifference)
 
   // Threshold to determine if images are similar
-  const threshold = 20000000000; // Adjust this value to set tolerance level
+  const threshold = 15000000000; // Adjust this value to set tolerance level
   if (pixelDifference < threshold) {
     console.log("The images are similar.");
     return true;
