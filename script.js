@@ -290,7 +290,6 @@ function compareImages() {
     g2 = imageData2.data[i + 1];
     b2 = imageData2.data[i + 2];
 
-    
     diff = Math.abs(r1 - r2) + Math.abs(g1 - g2) + Math.abs(b1 - b2)
     diffSqrt = (Math.abs(r1 - r2) + Math.abs(g1 - g2) + Math.abs(b1 - b2))**0.5;
     diffSq = (Math.abs(r1 - r2) + Math.abs(g1 - g2) + Math.abs(b1 - b2))**2;
