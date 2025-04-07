@@ -35,8 +35,6 @@ async function getRandomLandmark(radius) {
     if (landmarks.length === 0) {
       throw new Error("No landmarks found in this area.");
     }
-  
-    // Choose a random one with equal probability
     const randomIndex = Math.floor(Math.random() * landmarks.length);
     const selected = landmarks[randomIndex];
     
@@ -55,37 +53,27 @@ function map() {
     getTotalDistance();
     getTotalScore();
 
-    // Request access to webcam
     navigator.mediaDevices.getUserMedia({ video: true })
     .then(stream => {
-        // Set the video source to the webcam stream
         video.srcObject = stream;
     })
     .catch(err => {
         console.error('Error accessing the camera: ', err);
     });
 
-    // Capture the screenshot when the button is clicked
     captureButton.addEventListener('click', () => {
-      // Get the video dimensions
       const videoWidth = video.videoWidth;
       const videoHeight = video.videoHeight;
-    
-      // Set the canvas size to match the video size
+
       canvas.width = videoWidth;
       canvas.height = videoHeight;
-    
-      // Draw the current video frame onto the canvas
+
       const context = canvas.getContext('2d');
       context.drawImage(video, 0, 0, videoWidth, videoHeight);
-    
-      // Convert the canvas image to a data URL (base64 image)
+
       const dataUrl = canvas.toDataURL('image/png');
-    
-      // Set the data URL as the source for the image element
+        
       screenshotImg.src = dataUrl;
-    
-      // Wait for the screenshot image to load before comparing
       screenshotImg.onload = () => {
         const compared = compareImages();
         if (compared) {
@@ -103,13 +91,11 @@ function map() {
     });
     
     if ("geolocation" in navigator) {
-    // Get the current position
     navigator.geolocation.getCurrentPosition(function(position) {
         homeLat = position.coords.latitude;
         homeLon = position.coords.longitude;
 
     }, function(error) {
-        // Handle errors if location access is denied or fails
         console.error("Error getting location: " + error.message);
     });
     } else {
@@ -127,8 +113,7 @@ async function initialize() {
         console.log('Longitude:', window.targetLon);
         console.log('Landmark:', landmark.tags.name);
         updateStreetView();
-        
-        // Now that the values are set, call any function that depends on them
+
         processLandmarkData();
     } catch (error) {
         console.error(error);
@@ -137,17 +122,16 @@ async function initialize() {
 
 function processLandmarkData() {
     console.log("Processing with global values:", window.targetLat, window.targetLon, window.landmarkName);
-    // Other logic here
 }
 
 initialize();
 
 map();
 
-function giveScore(given) { //given is distance between two points in km
+function giveScore(given) { 
     given = given*1000;
-    const minDistance = 10;      // meters
-    const maxDistance = 50000;   // 50 km
+    const minDistance = 10;    
+    const maxDistance = 50000;   
 
     const clamped = Math.max(minDistance, Math.min(maxDistance, given));
 
@@ -157,23 +141,18 @@ function giveScore(given) { //given is distance between two points in km
 
     let normalized = (logValue - logMin) / (logMax - logMin);
 
-    // Apply a power curve to reduce small distance scores slightly
-    const curveStrength = 1.2; // >1 = boost higher distances more, <1 = flatter curve
+    const curveStrength = 1.2;
     normalized = Math.pow(normalized, curveStrength);
 
     const points = Math.round(normalized * 1000);
     return points;
 }
 
-/*
-* Saving location and score to browser
-*/
 function saveCompletedLocation(lat, lng, score) {
   const key = 'completedLocations';
   const stored = localStorage.getItem(key);
   const completed = stored ? JSON.parse(stored) : [];
 
-  // Add new location if not already saved
   const newLoc = `${window.landmarkName},${lat},${lng},${score},${calcDistance(homeLat, homeLon, window.targetLat, window.targetLon).toFixed(2)}`;
   if (!completed.includes(newLoc)) {
     completed.push(newLoc);
@@ -203,14 +182,12 @@ function showCompletedLocations() {
 }
 
 function getTotalScore() {
-    const locations = getCompletedLocations(); // Retrieve the stored locations
+    const locations = getCompletedLocations();
     let totalScore = 0;
     
     locations.forEach(location => {
-      // Each location is stored as "lat,lng,score"
       const parts = location.split(',');
-      
-      // Ensure we have at least three elements
+
       if (parts.length >= 3) {
         const score = parseFloat(parts[3]);
         if (!isNaN(score)) {
@@ -229,14 +206,12 @@ function showTotalScore() {
 }
 
 function getTotalDistance() {
-    const locations = getCompletedLocations(); // Retrieve the stored locations
+    const locations = getCompletedLocations();
     let totalDistance = 0;
     
     locations.forEach(location => {
-      // Each location is stored as "lat,lng,score,distance"
       const parts = location.split(',');
-      
-      // Ensure we have at least three elements
+
       if (parts.length >= 4) {
         const distance = parseFloat(parts[4]);
         if (!isNaN(distance)) {
@@ -254,35 +229,28 @@ function showTotalDistance() {
     alert("Total score: " + total);
 }
 
-/*
-* Distance algorithm
-*/
 function toRadians(degrees) {
     return degrees * Math.PI / 180;
   }
   
 function calcDistance(lat1, lon1, lat2, lon2) {
-    const R = 6371; // Radius of Earth in kilometers
-
-    // Convert degrees to radians
+    const R = 6371;
+    
     const φ1 = toRadians(lat1);
     const φ2 = toRadians(lat2);
     const Δφ = toRadians(lat2 - lat1);
     let Δλ = toRadians(lon2 - lon1);
 
-    // Account for longitude wrapping (ensure Δλ is in the range [-180°, 180°])
     if (Math.abs(Δλ) > Math.PI) {
         Δλ = Δλ > 0 ? Δλ - 2 * Math.PI : Δλ + 2 * Math.PI;
     }
 
-    // Haversine formula
     const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
                 Math.cos(φ1) * Math.cos(φ2) *
                 Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
 
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-    // Distance in kilometers
     const distance = R * c;
 
     return distance;
@@ -298,20 +266,17 @@ function compareImages() {
   const ctx1 = canvas1.getContext('2d');
   const ctx2 = canvas2.getContext('2d');
 
-  // Set canvas sizes
   canvas1.width = screenshot.width;
   canvas1.height = screenshot.height;
   canvas2.width = streetViewImage.width;
   canvas2.height = streetViewImage.height;
 
-  // Draw images to canvases
   ctx1.drawImage(screenshot, 0, 0, screenshot.width, screenshot.height);
   ctx2.drawImage(streetViewImage, 0, 0, streetViewImage.width, streetViewImage.height);
 
   const imageData1 = ctx1.getImageData(0, 0, canvas1.width, canvas1.height);
   const imageData2 = ctx2.getImageData(0, 0, canvas2.width, canvas2.height);
 
-  // Check if the images are the same size
   if (imageData1.width !== imageData2.width || imageData1.height !== imageData2.height) {
     console.log("Images have different sizes and cannot be compared.");
     return false;
@@ -322,7 +287,6 @@ function compareImages() {
   let pixelDifferenceSqrt = 0;
   length = imageData1.data.length;
 
-  // Compare pixel-by-pixel
   for (let i = 0; i < length; i += 4) {
     r1 = imageData1.data[i];
     g1 = imageData1.data[i + 1];
@@ -344,8 +308,7 @@ function compareImages() {
   console.log("Pixel Difference: " + pixelDifference)
   console.log("Pixel Difference Squared: " + pixelDifferenceSq)
 
-  // Threshold to determine if images are similar
-  const threshold = 4000000; // Adjust this value to set tolerance level
+  const threshold = 4000000;
   if (pixelDifferenceSqrt < threshold) {
     console.log("The images are similar.");
     return true;
