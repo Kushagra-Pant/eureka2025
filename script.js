@@ -37,7 +37,6 @@ async function getRandomLandmark(radius) {
     }
     const randomIndex = Math.floor(Math.random() * landmarks.length);
     const selected = landmarks[randomIndex];
-    
             
     return selected;
 }
@@ -249,11 +248,7 @@ function calcDistance(lat1, lon1, lat2, lon2) {
                 Math.cos(φ1) * Math.cos(φ2) *
                 Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
 
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-    const distance = R * c;
-
-    return distance;
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 
 
