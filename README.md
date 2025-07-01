@@ -14,3 +14,6 @@ Small World Wonders was a project created by Kushagra Pant, Thomas Duong, Ali, a
 - A login system with leaderboard
 - Progress tracking bar
 - Incoporating AI for more robust image comparison
+
+## Deployment
+Deployed with Vercel [here](https://eureka2025.vercel.app/)
